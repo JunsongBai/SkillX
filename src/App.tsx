@@ -7,7 +7,10 @@ import ProjectsPage from './pages/ProjectsPage';
 import WorkspacePage from './pages/WorkspacePage';
 import ProfilePage from './pages/ProfilePage';
 import ChatPage from './pages/ChatPage';
+import CreateProjectPage from './pages/CreateProjectPage';
 import DesignSystem from './components/DesignSystem';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import SettingsPage from './pages/SettingsPage';
 import ResponsiveWrapper from './components/ResponsiveWrapper';
 
 // 页面过渡动画组件
@@ -60,8 +63,10 @@ const App: React.FC = () => {
       <ResponsiveWrapper>
         <Routes>
           {/* 全屏页面（无底部导航） */}
+          <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
           <Route path="/projects/:projectId/chat" element={<ChatPage />} />
-          <Route path="/projects/new" element={<div className="p-8 text-text-primary">创建新项目页面（开发中）</div>} />
+          <Route path="/projects/new" element={<CreateProjectPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           
           {/* 带底部导航的主布局 */}
           <Route path="/*" element={<MainLayout />} />

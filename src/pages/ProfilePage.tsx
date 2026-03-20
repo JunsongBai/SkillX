@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Settings, Edit3, Clock, Award, Star, Briefcase, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getCurrentUser } from '../data/mock';
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
   const user = getCurrentUser();
 
   // 生成贡献图数据
@@ -15,7 +17,10 @@ const ProfilePage: React.FC = () => {
       <div className="bg-gradient-to-b from-bg-secondary to-bg-primary px-4 pt-12 pb-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-text-primary">节点画像</h1>
-          <button className="p-2 rounded-lg bg-bg-card text-text-secondary hover:text-text-primary transition-colors">
+          <button 
+            onClick={() => navigate('/settings')}
+            className="p-2 rounded-lg bg-bg-card text-text-secondary hover:text-text-primary transition-colors"
+          >
             <Settings size={20} />
           </button>
         </div>
