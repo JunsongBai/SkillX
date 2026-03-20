@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, MoreHorizontal, Calendar, User, GripVertical, CheckCircle2, Circle, Play } from 'lucide-react';
+import { Plus, Calendar, GripVertical, CheckCircle2, Circle, Play } from 'lucide-react';
 import type { Task } from '../types';
 
 interface TaskBoardProps {
@@ -57,7 +57,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onTaskMove, onTaskClick })
     setDraggedTask(task);
   };
 
-  const handleDragOver = (e: React.DragEvent, status: Task['status']) => {
+  const handleDragOver = (e: React.DragEvent, _status: Task['status']) => {
     e.preventDefault();
   };
 
@@ -87,8 +87,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onTaskMove, onTaskClick })
               <div className="flex items-center gap-2">
                 <Icon className={`w-4 h-4 ${column.color}`} />
                 <span className="text-sm font-medium text-text-primary">{column.label}</span>
-                <span className="px-2 py-0.5 bg-bg-card rounded-full text-xs text-text-muted"
-003e
+                <span className="px-2 py-0.5 bg-bg-card rounded-full text-xs text-text-muted">
                   {columnTasks.length}
                 </span>
               </div>

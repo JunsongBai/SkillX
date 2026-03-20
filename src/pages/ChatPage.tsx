@@ -11,8 +11,7 @@ import {
   Bold,
   ListTodo,
 } from 'lucide-react';
-import { mockProjects, mockUsers, getUserById, getCurrentUser } from '../data/mock';
-import type { Task } from '../types';
+import { mockProjects, getUserById, getCurrentUser } from '../data/mock';
 
 const ChatPage: React.FC = () => {
   const { projectId } = useParams();

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Bold, Italic, Link, List, ListOrdered, Code, Quote, Eye, Edit3, Check } from 'lucide-react';
+import { Bold, Italic, Link, List, ListOrdered, Code, Quote, Eye, Edit3 } from 'lucide-react';
 
 interface MarkdownEditorProps {
   value: string;

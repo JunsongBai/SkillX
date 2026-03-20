@@ -49,8 +49,7 @@ const ProjectsPage: React.FC = () => {
                 {statusConfig[status].label}
                 <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
                   activeTab === status ? statusConfig[status].bgColor + ' ' + statusConfig[status].textColor : 'bg-bg-hover text-text-muted'
-                }`}
-003e
+                }`}>
                   {mockProjects.filter(p => p.status === status).length}
                 </span>
               </button>
