@@ -46,7 +46,7 @@ const BottomNav: React.FC = () => {
                 {active && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute -top-1 w-8 h-1 bg-accent-primary rounded-full"
+                    className="absolute -top-1 w-8 h-1 bg-white rounded-full"
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                   />
                 )}
@@ -55,7 +55,7 @@ const BottomNav: React.FC = () => {
                   whileTap={{ scale: 0.9 }}
                   className={`relative p-2 rounded-xl transition-all duration-200 ${
                     active
-                      ? 'text-accent-primary'
+                      ? 'text-white'
                       : 'text-text-muted hover:text-text-secondary'
                   }`}
                 >
@@ -63,14 +63,14 @@ const BottomNav: React.FC = () => {
                     size={24}
                     strokeWidth={active ? 2.5 : 2}
                     className={`transition-all duration-200 ${
-                      active ? 'drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]' : ''
+                      active ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : ''
                     }`}
                   />
                 </motion.div>
                 
                 <span
                   className={`text-xs font-medium transition-colors duration-200 ${
-                    active ? 'text-accent-primary' : 'text-text-muted'
+                    active ? 'text-white' : 'text-text-muted'
                   }`}
                 >
                   {item.label}
@@ -87,8 +87,8 @@ const BottomNav: React.FC = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 rounded-full bg-gradient-to-br from-accent-primary to-accent-secondary 
-                         flex items-center justify-center shadow-glow-blue
+              className="w-14 h-14 rounded-full bg-white 
+                         flex items-center justify-center shadow-glow
                          border-4 border-bg-primary"
             >
               <Plus size={28} className="text-bg-primary" strokeWidth={2.5} />

@@ -13,11 +13,12 @@ export default {
         'bg-card': '#1a1a24',
         'bg-hover': '#252532',
         
-        // 强调色 - 科技感
+        // 强调色 - 极简黑白灰
         'accent': {
-          primary: '#00d4ff',
-          secondary: '#7c3aed',
-          success: '#10b981',
+          primary: '#e0e0e0',      // 银白主色
+          secondary: '#a0a0a0',    // 中灰
+          highlight: '#ffffff',    // 纯白高亮
+          success: '#22c55e',
           warning: '#f59e0b',
         },
         
@@ -37,9 +38,9 @@ export default {
         'xl': '24px',
       },
       boxShadow: {
-        'glow-blue': '0 0 20px rgba(0, 212, 255, 0.3)',
-        'glow-purple': '0 0 20px rgba(124, 58, 237, 0.3)',
-        'glow-accent': '0 0 30px rgba(0, 212, 255, 0.4)',
+        'glow': '0 0 20px rgba(255, 255, 255, 0.15)',
+        'glow-strong': '0 0 30px rgba(255, 255, 255, 0.25)',
+        'glow-accent': '0 0 20px rgba(224, 224, 224, 0.3)',
       },
       animation: {
         'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -47,8 +48,8 @@ export default {
       },
       keyframes: {
         'pulse-glow': {
-          '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(0, 212, 255, 0.3)' },
-          '50%': { opacity: '0.8', boxShadow: '0 0 40px rgba(0, 212, 255, 0.6)' },
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 15px rgba(255, 255, 255, 0.1)' },
+          '50%': { opacity: '0.9', boxShadow: '0 0 25px rgba(255, 255, 255, 0.2)' },
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0)' },
