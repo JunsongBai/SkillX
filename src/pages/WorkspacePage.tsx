@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, CheckCircle2, Circle, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockProjects, mockUsers, getUserById, getCurrentUser } from '../data/mock';
 
 const WorkspacePage: React.FC = () => {
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
   
   // 获取当前用户参与的项目
@@ -26,15 +28,15 @@ const WorkspacePage: React.FC = () => {
           {/* Quick Stats */}
           <div className="grid grid-cols-3 gap-3">
             <div className="card p-3">
-              <div className="text-2xl font-bold text-accent-primary">{myProjects.length}</div>
+              <div className="text-2xl font-bold text-white">{myProjects.length}</div>
               <div className="text-xs text-text-muted">进行中的项目</div>
             </div>
             <div className="card p-3">
-              <div className="text-2xl font-bold text-accent-warning">{pendingTasks}</div>
+              <div className="text-2xl font-bold text-yellow-400">{pendingTasks}</div>
               <div className="text-xs text-text-muted">待处理任务</div>
             </div>
             <div className="card p-3">
-              <div className="text-2xl font-bold text-accent-secondary">3</div>
+              <div className="text-2xl font-bold text-gray-400">3</div>
               <div className="text-xs text-text-muted">未读消息</div>
             </div>
           </div>
@@ -49,7 +51,7 @@ const WorkspacePage: React.FC = () => {
           {myProjects.map((project, index) => {
             const completedTasks = project.tasks.filter(t => t.status === 'done').length;
             const totalTasks = project.tasks.length;
-            const hasUnread = index === 0; // 模拟第一个有未读
+            const hasUnread = index === 0;
 
             return (
               <motion.div
@@ -57,8 +59,9 @@ const WorkspacePage: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
+                onClick={() => navigate(`/projects/${project.id}/chat`)}
                 className={`card p-4 cursor-pointer ${
-                  hasUnread ? 'border-accent-primary/30 shadow-glow-blue' : ''
+                  hasUnread ? 'border-white/30 shadow-glow' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -66,7 +69,7 @@ const WorkspacePage: React.FC = () => {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-semibold text-text-primary">{project.title}</h3>
                       {hasUnread && (
-                        <span className="px-2 py-0.5 bg-accent-primary text-bg-primary rounded-full text-xs font-medium">
+                        <span className="px-2 py-0.5 bg-white text-bg-primary rounded-full text-xs font-medium">
                           新消息
                         </span>
                       )}
@@ -87,7 +90,7 @@ const WorkspacePage: React.FC = () => {
                 <div className="mt-3">
                   <div className="h-1.5 bg-bg-secondary rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full"
+                      className="h-full bg-white rounded-full"
                       style={{ width: `${project.progress}%` }}
                     />
                   </div>
@@ -147,12 +150,12 @@ const WorkspacePage: React.FC = () => {
             <div className="text-xs text-text-muted">待办</div>
           </div>
           <div className="card p-3 text-center">
-            <Play className="w-5 h-5 text-accent-warning mx-auto mb-1" />
+            <Play className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
             <div className="text-lg font-semibold text-text-primary">3</div>
             <div className="text-xs text-text-muted">进行中</div>
           </div>
           <div className="card p-3 text-center">
-            <CheckCircle2 className="w-5 h-5 text-accent-success mx-auto mb-1" />
+            <CheckCircle2 className="w-5 h-5 text-green-400 mx-auto mb-1" />
             <div className="text-lg font-semibold text-text-primary">8</div>
             <div className="text-xs text-text-muted">已完成</div>
           </div>

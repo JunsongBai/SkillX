@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockUsers } from '../data/mock';
+import UserProfileModal from '../components/UserProfileModal';
+import type { User } from '../types';
 
 // 技能分类
 const skillCategories = [
@@ -16,6 +18,7 @@ const skillCategories = [
 const ExplorePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // 过滤用户
   const filteredUsers = mockUsers.filter(user => {
@@ -53,7 +56,7 @@ const ExplorePage: React.FC = () => {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
-                    ? 'bg-accent-primary text-bg-primary'
+                    ? 'bg-white text-bg-primary'
                     : 'bg-bg-card text-text-secondary hover:bg-bg-hover'
                 }`}
               >
@@ -72,6 +75,7 @@ const ExplorePage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            onClick={() => setSelectedUser(user)}
             className="card card-hover p-4 cursor-pointer"
           >
             <div className="flex gap-4">
@@ -83,7 +87,7 @@ const ExplorePage: React.FC = () => {
                   className="w-16 h-16 rounded-full border-2 border-white/10"
                 />
                 {user.isOnline && (
-                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-accent-success rounded-full border-2 border-bg-card" />
+                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 rounded-full border-2 border-bg-card" />
                 )}
               </div>
 
@@ -121,6 +125,13 @@ const ExplorePage: React.FC = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* User Profile Modal */}
+      <UserProfileModal
+        user={selectedUser}
+        isOpen={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+      />
     </div>
   );
 };

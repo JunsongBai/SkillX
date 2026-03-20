@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, ChevronRight, Users, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockProjects, getUserById } from '../data/mock';
 
-
 const statusConfig = {
-  recruiting: { label: '招募中', color: 'bg-accent-primary', bgColor: 'bg-accent-primary/10', textColor: 'text-accent-primary' },
-  'in-progress': { label: '进行中', color: 'bg-accent-warning', bgColor: 'bg-accent-warning/10', textColor: 'text-accent-warning' },
-  completed: { label: '已完成', color: 'bg-accent-success', bgColor: 'bg-accent-success/10', textColor: 'text-accent-success' },
+  recruiting: { label: '招募中', color: 'bg-white', bgColor: 'bg-white/10', textColor: 'text-white' },
+  'in-progress': { label: '进行中', color: 'bg-yellow-400', bgColor: 'bg-yellow-400/10', textColor: 'text-yellow-400' },
+  completed: { label: '已完成', color: 'bg-green-400', bgColor: 'bg-green-400/10', textColor: 'text-green-400' },
 };
 
 const ProjectsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'recruiting' | 'in-progress' | 'completed'>('recruiting');
 
   const filteredProjects = mockProjects.filter(p => p.status === activeTab);
@@ -25,8 +26,8 @@ const ProjectsPage: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary 
-                         rounded-lg text-bg-primary font-medium text-sm"
+              onClick={() => navigate('/projects/new')}
+              className="flex items-center gap-2 px-4 py-2 bg-white text-bg-primary rounded-lg font-medium text-sm"
             >
               <Plus size={18} />
               发布项目
@@ -48,7 +49,8 @@ const ProjectsPage: React.FC = () => {
                 {statusConfig[status].label}
                 <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
                   activeTab === status ? statusConfig[status].bgColor + ' ' + statusConfig[status].textColor : 'bg-bg-hover text-text-muted'
-                }`}>
+                }`}
+003e
                   {mockProjects.filter(p => p.status === status).length}
                 </span>
               </button>
@@ -65,6 +67,7 @@ const ProjectsPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            onClick={() => navigate(`/projects/${project.id}/chat`)}
             className="card card-hover overflow-hidden cursor-pointer"
           >
             {/* Status Bar */}
@@ -103,11 +106,11 @@ const ProjectsPage: React.FC = () => {
               <div className="mb-4">
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <span className="text-text-secondary">项目进度</span>
-                  <span className="text-accent-primary font-medium">{project.progress}%</span>
+                  <span className="text-white font-medium">{project.progress}%</span>
                 </div>
                 <div className="h-2 bg-bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full transition-all"
+                    className="h-full bg-white rounded-full transition-all"
                     style={{ width: `${project.progress}%` }}
                   />
                 </div>
@@ -123,7 +126,7 @@ const ProjectsPage: React.FC = () => {
                     <Target size={14} /> {project.tasks.length} 个任务
                   </span>
                 </div>
-                <span className="text-accent-primary">{project.reward}</span>
+                <span className="text-white">{project.reward}</span>
               </div>
 
               {/* Members Avatar */}
