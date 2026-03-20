@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  html {
+    @apply bg-bg-primary text-text-primary;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-bg-primary min-h-screen;
+    overflow-x: hidden;
+  }
+  
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-bg-card rounded-lg border border-white/5 transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply hover:border-accent-primary/50 hover:shadow-glow-blue;
+  }
+  
+  .btn-primary {
+    @apply bg-accent-primary text-bg-primary font-semibold px-6 py-3 rounded-lg 
+           transition-all duration-200 hover:shadow-glow-blue active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-bg-card border border-white/10 text-text-primary px-6 py-3 rounded-lg
+           transition-all duration-200 hover:border-accent-primary/30 hover:bg-bg-hover;
+  }
+  
+  .input-dark {
+    @apply bg-bg-secondary border border-white/10 rounded-lg px-4 py-3 
+           text-text-primary placeholder-text-muted
+           focus:outline-none focus:border-accent-primary focus:shadow-glow-blue
+           transition-all duration-200;
+  }
+  
+  .tag {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm
+           bg-accent-primary/10 text-accent-primary border border-accent-primary/20;
+  }
+  
+  .glow-text {
+    @apply text-accent-primary;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent;
+  }
+  
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(#1a1a24, #1a1a24) padding-box,
+                linear-gradient(135deg, #00d4ff, #7c3aed) border-box;
+    border: 1px solid transparent;
+  }
+}
