@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Plus, Clock, Users, ChevronRight, Target } from 'lucide-react';
+import { Plus, ChevronRight, Users, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { mockProjects, mockUsers, getUserById } from '../data/mock';
-import type { Project } from '../types';
+import { mockProjects, getUserById } from '../data/mock';
+
 
 const statusConfig = {
   recruiting: { label: '招募中', color: 'bg-accent-primary', bgColor: 'bg-accent-primary/10', textColor: 'text-accent-primary' },

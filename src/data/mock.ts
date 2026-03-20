@@ -1,4 +1,4 @@
-import type { User, Project, Skill, Message } from '../types';
+import type { User, Skill } from '../types';
 
 // 技能标签库
 export const skillsLibrary: Skill[] = [

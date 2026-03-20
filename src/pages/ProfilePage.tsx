@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, Edit3, MapPin, Clock, Award, Star, Briefcase } from 'lucide-react';
+import { Settings, Edit3, Clock, Award, Star, Briefcase } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getCurrentUser } from '../data/mock';
 
@@ -8,7 +8,6 @@ const ProfilePage: React.FC = () => {
 
   // 生成贡献图数据
   const weeks = 26; // 显示26周
-  const days = ['日', '一', '二', '三', '四', '五', '六'];
   
   return (
     <div className="min-h-screen bg-bg-primary pb-24">

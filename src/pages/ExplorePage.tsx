@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Filter, MapPin } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { mockUsers, skillsLibrary } from '../data/mock';
-import type { Skill } from '../types';
+import { mockUsers } from '../data/mock';
 
 // 技能分类
 const skillCategories = [
@@ -17,16 +16,12 @@ const skillCategories = [
 const ExplorePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   // 过滤用户
   const filteredUsers = mockUsers.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          user.school.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesSkill = selectedSkill 
-      ? user.skillsOffered.some(s => s.id === selectedSkill)
-      : true;
-    return matchesSearch && matchesSkill;
+    return matchesSearch;
   });
 
   return (

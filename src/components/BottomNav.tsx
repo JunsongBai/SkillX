@@ -33,7 +33,7 @@ const BottomNav: React.FC = () => {
       {/* 导航栏 */}
       <nav className="bg-bg-primary/95 backdrop-blur-md border-t border-white/5 px-2 pb-safe">
         <div className="max-w-lg mx-auto flex items-center justify-around py-2">
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
             

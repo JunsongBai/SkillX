@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Clock, AlertCircle, ChevronRight, CheckCircle2, Circle, Play } from 'lucide-react';
+import { Clock, ChevronRight, CheckCircle2, Circle, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockProjects, mockUsers, getUserById, getCurrentUser } from '../data/mock';
 
