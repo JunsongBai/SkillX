@@ -310,14 +310,71 @@ const CreateProjectPage: React.FC = () => {
                 报酬/价值 *
               </label>
               <p className="text-xs text-text-muted mb-3">
-                描述参与者将获得什么（可以是技能点数、现金、署名权、未来协助等）
+                选择或自定义参与者将获得的报酬
               </p>
-              <textarea
-                placeholder="例如：项目完成后，参与者将获得 100 技能点数 + 项目署名权 + 我的未来协助承诺"
-                value={formData.reward}
-                onChange={(e) => setFormData({ ...formData, reward: e.target.value })}
-                className="input-dark w-full h-32 resize-none"
-              />
+
+              {/* 预设报酬选项 */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {[
+                  { id: 'skill-50', label: '50 技能点', desc: '小型任务', icon: '🎯' },
+                  { id: 'skill-100', label: '100 技能点', desc: '中型任务', icon: '🏆' },
+                  { id: 'skill-200', label: '200 技能点', desc: '大型任务', icon: '💎' },
+                  { id: 'credit', label: '署名权', desc: '项目作者', icon: '✍️' },
+                  { id: 'future', label: '未来协助', desc: '互相帮忙', icon: '🤝' },
+                  { id: 'custom', label: '自定义', desc: '其他报酬', icon: '✨' },
+                ].map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => {
+                      if (option.id === 'custom') {
+                        setFormData({ ...formData, reward: '' });
+                      } else {
+                        const currentReward = formData.reward;
+                        const separator = currentReward ? ' + ' : '';
+                        if (!currentReward.includes(option.label)) {
+                          setFormData({ 
+                            ...formData, 
+                            reward: currentReward + separator + option.label 
+                          });
+                        }
+                      }
+                    }}
+                    className={`card p-3 text-left transition-all ${
+                      formData.reward.includes(option.label) 
+                        ? 'border-white/50 bg-white/10' 
+                        : 'hover:bg-white/5'
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">{option.icon}</div>
+                    <div className="font-medium text-text-primary text-sm">{option.label}</div>
+                    <div className="text-xs text-text-muted">{option.desc}</div>
+                  </button>
+                ))}
+              </div>
+
+              {/* 自定义输入 */}
+              <div>
+                <label className="block text-xs text-text-muted mb-2">
+                  已选报酬（可编辑）
+                </label>
+                <textarea
+                  placeholder="例如：项目完成后，参与者将获得 100 技能点数 + 项目署名权 + 我的未来协助承诺"
+                  value={formData.reward}
+                  onChange={(e) => setFormData({ ...formData, reward: e.target.value })}
+                  className="input-dark w-full h-24 resize-none"
+                />
+              </div>
+
+              {/* 技能点说明 */}
+              <div className="card p-3 mt-4 bg-bg-secondary/50">
+                <h4 className="text-sm font-medium text-text-primary mb-2">💡 技能点说明</h4>
+                <ul className="text-xs text-text-muted space-y-1">
+                  <li>• 技能点是平台内的虚拟货币，可用于兑换其他用户的技能服务</li>
+                  <li>• 完成任务后，系统自动结算技能点到参与者账户</li>
+                  <li>• 技能点可累积，提升用户在平台的信誉等级</li>
+                  <li>• 建议根据任务难度设置 50-500 技能点不等的报酬</li>
+                </ul>
+              </div>
             </div>
 
             {/* Preview */}

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, ChevronRight, CheckCircle2, Circle, Play } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Clock, ChevronRight, CheckCircle2, Circle, Play, X, MessageSquare, Target } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { mockProjects, mockUsers, getUserById, getCurrentUser } from '../data/mock';
+import type { Task } from '../types';
 
 const WorkspacePage: React.FC = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const [activeModal, setActiveModal] = useState<'projects' | 'tasks' | 'messages' | null>(null);
   
   // 获取当前用户参与的项目
   const myProjects = mockProjects.filter(p => 
@@ -14,9 +16,21 @@ const WorkspacePage: React.FC = () => {
   );
 
   // 统计
-  const pendingTasks = myProjects.reduce((acc, p) => 
-    acc + p.tasks.filter(t => t.status === 'todo' && t.assignee === currentUser.id).length, 0
-  );
+  const pendingTasks = myProjects.flatMap(p => 
+    p.tasks.filter(t => t.status === 'todo')
+  ) as Task[];
+  
+  const unreadMessages = [
+    { id: '1', project: '学术写作辅助工具', message: '前端框架选型讨论', time: '10分钟前' },
+    { id: '2', project: '学生技能交换平台', message: 'UI设计稿已更新', time: '30分钟前' },
+    { id: '3', project: '校园碳中和', message: '数据收集进度汇报', time: '1小时前' },
+  ];
+
+  const taskStats = {
+    todo: myProjects.flatMap(p => p.tasks.filter(t => t.status === 'todo')).length,
+    inProgress: myProjects.flatMap(p => p.tasks.filter(t => t.status === 'in-progress')).length,
+    done: myProjects.flatMap(p => p.tasks.filter(t => t.status === 'done')).length,
+  };
 
   return (
     <div className="min-h-screen bg-bg-primary pb-24">
@@ -25,20 +39,34 @@ const WorkspacePage: React.FC = () => {
         <div className="px-4 py-4">
           <h1 className="text-2xl font-bold text-text-primary mb-4">协作终端</h1>
 
-          {/* Quick Stats */}
+          {/* Quick Stats - 可点击 */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="card p-3">
+            <button 
+              onClick={() => setActiveModal('projects')}
+              className="card p-3 text-left hover:bg-bg-hover transition-colors"
+            >
               <div className="text-2xl font-bold text-white">{myProjects.length}</div>
               <div className="text-xs text-text-muted">进行中的项目</div>
-            </div>
-            <div className="card p-3">
-              <div className="text-2xl font-bold text-yellow-400">{pendingTasks}</div>
+            </button>
+            
+            <button 
+              onClick={() => setActiveModal('tasks')}
+              className="card p-3 text-left hover:bg-bg-hover transition-colors"
+            >
+              <div className="text-2xl font-bold text-yellow-400">{pendingTasks.length}</div>
               <div className="text-xs text-text-muted">待处理任务</div>
-            </div>
-            <div className="card p-3">
-              <div className="text-2xl font-bold text-gray-400">3</div>
+            </button>
+            
+            <button 
+              onClick={() => setActiveModal('messages')}
+              className="card p-3 text-left hover:bg-bg-hover transition-colors relative"
+            >
+              <div className="text-2xl font-bold text-gray-400">{unreadMessages.length}</div>
               <div className="text-xs text-text-muted">未读消息</div>
-            </div>
+              {unreadMessages.length > 0 && (
+                <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -126,7 +154,11 @@ const WorkspacePage: React.FC = () => {
         <div className="card p-4">
           <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
             {mockUsers.filter(u => u.id !== currentUser.id).slice(0, 5).map((user) => (
-              <div key={user.id} className="flex flex-col items-center gap-2 min-w-[64px]">
+              <div 
+                key={user.id} 
+                className="flex flex-col items-center gap-2 min-w-[64px] cursor-pointer"
+                onClick={() => navigate(`/profile`)}
+              >
                 <img
                   src={user.avatar}
                   alt={user.name}
@@ -146,23 +178,133 @@ const WorkspacePage: React.FC = () => {
         <div className="grid grid-cols-3 gap-3">
           <div className="card p-3 text-center">
             <Circle className="w-5 h-5 text-text-muted mx-auto mb-1" />
-            <div className="text-lg font-semibold text-text-primary">2</div>
+            <div className="text-lg font-semibold text-text-primary">{taskStats.todo}</div>
             <div className="text-xs text-text-muted">待办</div>
           </div>
           <div className="card p-3 text-center">
             <Play className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
-            <div className="text-lg font-semibold text-text-primary">3</div>
+            <div className="text-lg font-semibold text-text-primary">{taskStats.inProgress}</div>
             <div className="text-xs text-text-muted">进行中</div>
           </div>
           <div className="card p-3 text-center">
             <CheckCircle2 className="w-5 h-5 text-green-400 mx-auto mb-1" />
-            <div className="text-lg font-semibold text-text-primary">8</div>
+            <div className="text-lg font-semibold text-text-primary">{taskStats.done}</div>
             <div className="text-xs text-text-muted">已完成</div>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {activeModal === 'projects' && (
+          <Modal title="进行中的项目" onClose={() => setActiveModal(null)}>
+            <div className="space-y-3">
+              {myProjects.map(project => (
+                <div 
+                  key={project.id}
+                  onClick={() => {
+                    setActiveModal(null);
+                    navigate(`/projects/${project.id}`);
+                  }}
+                  className="card p-3 cursor-pointer"
+                >
+                  <div className="font-medium text-text-primary">{project.title}</div>
+                  <div className="text-sm text-text-muted">进度 {project.progress}% · {project.members.length} 人参与</div>
+                </div>
+              ))}
+            </div>
+          </Modal>
+        )}
+
+        {activeModal === 'tasks' && (
+          <Modal title="待处理任务" onClose={() => setActiveModal(null)}>
+            <div className="space-y-3">
+              {pendingTasks.length > 0 ? pendingTasks.map((task, idx) => (
+                <div 
+                  key={idx}
+                  className="card p-3 cursor-pointer"
+                  onClick={() => {
+                    setActiveModal(null);
+                    navigate(`/projects/p1/chat`);
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Target size={16} className="text-yellow-400" />
+                    <span className="font-medium text-text-primary">{task.title}</span>
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    {task.skills.map(skill => (
+                      <span key={skill} className="tag text-xs">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              )) : (
+                <div className="text-center text-text-muted py-8">暂无待处理任务</div>
+              )}
+            </div>
+          </Modal>
+        )}
+
+        {activeModal === 'messages' && (
+          <Modal title="未读消息" onClose={() => setActiveModal(null)}>
+            <div className="space-y-3">
+              {unreadMessages.map(msg => (
+                <div 
+                  key={msg.id}
+                  className="card p-3 cursor-pointer"
+                  onClick={() => {
+                    setActiveModal(null);
+                    navigate(`/projects/p1/chat`);
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <MessageSquare size={16} className="text-white" />
+                    <span className="font-medium text-text-primary">{msg.project}</span>
+                    <span className="text-xs text-text-muted ml-auto">{msg.time}</span>
+                  </div>
+                  <p className="text-sm text-text-secondary">{msg.message}</p>
+                </div>
+              ))}
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
+// Modal 组件
+const Modal: React.FC<{ title: string; children: React.ReactNode; onClose: () => void }> = ({ title, children, onClose }) => (
+  <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+    />
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 100 }}
+      className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto"
+    >
+      <div className="bg-bg-primary rounded-t-3xl border-t border-white/10 shadow-2xl max-h-[70vh] overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
+          <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
+          <button 
+            onClick={onClose}
+            className="p-2 rounded-full bg-bg-card text-text-muted hover:text-white"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <div className="p-6 overflow-y-auto max-h-[calc(70vh-72px)]">
+          {children}
+        </div>
+      </div>
+    </motion.div>
+  </>
+);
 
 export default WorkspacePage;
